@@ -39,6 +39,9 @@ func (rs *RenderService) GetServices() ([]Service, error) {
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code %d, wanted %d", resp.StatusCode, http.StatusOK)
+	}
 	var s []Service
 	if err := json.NewDecoder(resp.Body).Decode(&s); err != nil {
 		return nil, err
@@ -50,6 +53,9 @@ func (rs *RenderService) GetDeploys(serviceId string, status string) ([]Deploy, 
 	resp, err := rs.c.Get(fmt.Sprintf("https://api.render.com/v1/services/%s/deploys", serviceId))
 	if err != nil {
 		return nil, err
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code %d, wanted %d", resp.StatusCode, http.StatusOK)
 	}
 	var d []Deploy
 	if err := json.NewDecoder(resp.Body).Decode(&d); err != nil {
