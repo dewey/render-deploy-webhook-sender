@@ -77,7 +77,9 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("render-deploy-webhook-sender"))
 	})
-
+	r.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 	level.Info(l).Log("msg", fmt.Sprintf("render-deploy-webhook-sender is running on :%s", *port), "environment", *environment)
 
 	// Set up webserver and and set max file limit to 50MB
