@@ -144,7 +144,6 @@ func (dc *DeployCheckRun) Run() {
 		return
 	}
 	finishedAt := d[0].Deploy.FinishedAt
-	//finishedAt = time.Now().Add(time.Duration(-2) * time.Minute)
 	if finishedAt.After(time.Now().Add(time.Duration(-dc.deployWindow) * time.Minute)) {
 		level.Info(dc.l).Log("msg", "found deploy within deploy window", "deploy_ts", finishedAt, "now_ts", time.Now())
 		resp, err := dc.c.Post(dc.webhookURL, "application/json", nil)
