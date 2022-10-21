@@ -26,6 +26,7 @@ func main() {
 	ff.Parse(fs, os.Args[1:],
 		ff.WithConfigFileFlag("config"),
 		ff.WithConfigFileParser(ff.PlainParser),
+		ff.WithEnvVars(),
 	)
 
 	l := log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
