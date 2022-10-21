@@ -1,10 +1,9 @@
 # Render.com Deploy Webhook Sender
 
-This is a service calling a webhook if there was a successful deploy within a given window on Render.com. This is a
-workaround for their [missing webhook support](https://feedback.render.com/features/p/deploy-webhooks).
+This is a simple service calling a webhook if there was a successful `deploy` event within a given window
+on Render.com. This is a workaround for their [missing webhook support](https://feedback.render.com/features/p/deploy-webhooks). This
+works well with [webhook-receiver](https://github.com/dewey/webhook-receiver).
 
 # Usage
 
-```shell
-go run main.go --api-token=redacted --environment=development --webhook-url=http://localhost:12345/uid/hook
-```
+Set environment variables defined at the top of `main.go`, run the binary.

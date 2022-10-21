@@ -22,8 +22,8 @@ func main() {
 	fs := flag.NewFlagSet("webhook-receiver", flag.ExitOnError)
 	var (
 		environment  = fs.String("environment", "develop", "the environment we are running in")
-		port         = fs.String("port", "8080", "the port archivepipe is running on")
-		apiToken     = fs.String("api-token", "changeme", "the secret token for the api")
+		port         = fs.String("port", "8080", "the port render-deploy-webhook-sender is running on")
+		apiToken     = fs.String("api-token", "", "the secret token for the api")
 		serviceName  = fs.String("service-name", "annoying.technology", "clear name of the service you want to monitor from render.com dashboard")
 		webhookURL   = fs.String("webhook-url", "https://example.com/123/hook", "the url of the webhook we should hit if there was a new deploy")
 		deployWindow = fs.Int("deploy-window", 10, "the deploy window in minutes. if within this timeframe there was a successful deploy we call the webhook")
@@ -44,6 +44,11 @@ func main() {
 		l = level.NewFilter(l, level.AllowError())
 	}
 	l = log.With(l, "ts", log.DefaultTimestampUTC, "caller", log.DefaultCaller)
+
+	if *apiToken == "" {
+		level.Error(l).Log("err", "api-token has to  be set")
+		return
+	}
 
 	c := http.DefaultClient
 	rs := rendercom.NewRenderService(c, *apiToken)
